@@ -31,6 +31,24 @@ schema_bq = 'osm_id:integer'
 for num_col in range(len(tst)):
     schema_bq = schema_bq + ',' + tst[num_col] + ':string'
     
+#for save txt file    
 myText = open(r'schema_bq.txt','w')
 myText.write(schema_bq)
 myText.close()
+
+#for save json
+import json
+mySchemTXT = open(r'schema_bq.txt','r')
+sch_txt = mySchemTXT.read()
+mySchemTXT.close()
+sch_list = list(sch_txt.split(','))
+sch_dict = dict()
+for x in range(len(sch_list)):
+    k, v = sch_list[x].split(':')
+    sch_dict[k] = v
+sch_dict = json.dumps(sch_dict)
+#BQ no read this :(
+
+
+with open('schema_bq.json', 'w') as f:
+    json.dump(sch_dict, f)
